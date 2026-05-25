@@ -1,0 +1,17 @@
+{
+  "name": "@spinzo/events",
+  "version": "1.0.0",
+  "description": "Shared event definitions for Spinzo microservices",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@spinzo/shared-types": "workspace:^",
+    "@tsconfig/node18": "^18.2.6"
+  }
+}

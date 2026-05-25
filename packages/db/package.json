@@ -1,0 +1,18 @@
+{
+  "name": "@spinzo/db",
+  "version": "1.0.0",
+  "description": "Drizzle ORM schema and client for Spinzo microservices",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tsconfig/node18": "^18.2.6",
+    "drizzle-orm": "^0.45.2",
+    "pg": "^8.21.0"
+  }
+}

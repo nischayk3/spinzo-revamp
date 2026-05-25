@@ -1,0 +1,17 @@
+{
+  "name": "@spinzo/shared-types",
+  "version": "1.0.0",
+  "description": "Shared types for Spinzo microservices",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tsconfig/node18": "^18.2.6",
+    "zod": "^4.4.3"
+  }
+}

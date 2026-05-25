@@ -1,0 +1,37 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # Fetch history for Turborepo's --filter to work
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+          run_install: false # We'll run pnpm install manually for caching
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "PNPM_CACHE_STORE=$(pnpm store path)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.PNPM_CACHE_STORE }}
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build and Test affected packages
+        run: pnpm turbo run lint typecheck test build --filter=...[origin/${{ github.event.pull_request.base.sha || github.sha }}]
+        env:
+          TURBO_TOKEN: ${{ secrets.VERCEL_TOKEN }} # Use Vercel token for remote caching
+          TURBO_TEAM: spinzo-org # Replace with your Vercel team ID

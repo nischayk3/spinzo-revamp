@@ -1,0 +1,1 @@
+export const ORDER_EVENTS = { PLACED: 'order.placed', STATUS_CHANGED: 'order.status_changed', CANCELLED: 'order.cancelled', PICKUP_VERIFIED: 'order.pickup_verified', DELIVERY_VERIFIED: 'order.delivery_verified', } as const; export interface OrderPlacedEvent { orderId: string; userId: string; storeId: string; totalAmount: number; pickupType: 'instant' | 'scheduled'; }

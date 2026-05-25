@@ -1,0 +1,15 @@
+{
+  "name": "spinzo-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "turbo": "latest"
+  },
+  "packageManager": "pnpm@8.15.4"
+}

@@ -1,0 +1,14 @@
+{
+  "name": "@spinzo/config",
+  "version": "1.0.0",
+  "description": "Shared ESLint, Prettier, TSConfig for Spinzo microservices",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tsconfig/node18": "^18.2.6",
+    "eslint-config-turbo": "^2.9.14"
+  }
+}
