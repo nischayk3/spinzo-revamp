@@ -1,0 +1,26 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": "./",
+    "paths": {
+      "@spinzo/shared-types": ["../../packages/shared-types/src"],
+      "@spinzo/db": ["../../packages/db/src"],
+      "@spinzo/config": ["../../packages/config"],
+      "@spinzo/events": ["../../packages/events/src"]
+    },
+    "declaration": true,
+    "sourceMap": true,
+    "incremental": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "strictPropertyInitialization": false,
+    "strict": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
