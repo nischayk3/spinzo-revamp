@@ -1,2 +1,2 @@
-export * from './order';
 export * from './events';
+export * from './order';

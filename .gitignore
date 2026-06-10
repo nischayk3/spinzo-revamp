@@ -41,8 +41,28 @@ logs/
 secrets.json
 *.pem
 *.key
+*service-account*.json
+firebase-adminsdk*.json
+
+# Firebase backup outputs (sensitive user data - never commit)
+backups/
+*.backup.json
 # Local development files
 *.local
 # Specific to this project - ignore the plans directory from source control
 docs/superpowers/plans/
 
+# AI agent skills (local-only, not source code)
+.agent/
+.claude/
+
+# Compiled JS/DTS artifacts that end up in src/ (dist/ is already ignored)
+packages/*/src/**/*.js
+packages/*/src/**/*.js.map
+packages/*/src/**/*.d.ts
+apps/*/src/**/*.js
+apps/*/src/**/*.js.map
+apps/*/src/**/*.d.ts
+
+# Root-level tsbuildinfo (non-dotfile variants)
+*.tsbuildinfo

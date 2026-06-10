@@ -13,5 +13,8 @@
   "dependencies": {
     "@tsconfig/node18": "^18.2.6",
     "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.3"
   }
 }
