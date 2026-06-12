@@ -13,7 +13,7 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
   );
-  app.enableCors({ origin: /.*\.spinzo\.in$/, credentials: true }); // Restrict CORS later
+  app.enableCors({ origin: true, credentials: true }); // Allow all origins in dev; restrict in production
   app.setGlobalPrefix('api/v1'); // Set global API prefix
   await app.listen(3000, '0.0.0.0');
   console.log(`Gateway is running on: ${await app.getUrl()}/api/v1`);
