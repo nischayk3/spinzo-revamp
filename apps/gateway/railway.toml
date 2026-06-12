@@ -4,7 +4,7 @@ buildCommand = "pnpm install --frozen-lockfile && pnpm --filter @spinzo/db build
 watchPatterns = ["apps/gateway/**", "packages/**"]
 
 [deploy]
-startCommand = "node apps/gateway/dist/main"
+startCommand = "pnpm --filter gateway start"
 healthcheckPath = "/api/v1/health"
 healthcheckTimeout = 120
 restartPolicyType = "ON_FAILURE"

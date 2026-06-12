@@ -4,7 +4,7 @@ buildCommand = "pnpm install --frozen-lockfile && pnpm --filter @spinzo/db build
 watchPatterns = ["apps/user-service/**", "packages/**"]
 
 [deploy]
-startCommand = "node apps/user-service/dist/main"
+startCommand = "pnpm --filter user-service start"
 healthcheckPath = "/user/v1/health"
 healthcheckTimeout = 120
 restartPolicyType = "ON_FAILURE"

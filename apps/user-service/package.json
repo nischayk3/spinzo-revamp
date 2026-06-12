@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "build": "nest build",
+    "start": "node dist/apps/user-service/src/main",
     "dev": "NODE_ENV=development nest start --watch",
-    "start:prod": "node dist/main"
+    "start:prod": "node dist/apps/user-service/src/main"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "nest build",
+    "start": "node dist/apps/auth-service/src/main",
     "dev": "NODE_ENV=development nest start --watch",
-    "start:prod": "node dist/main"
+    "start:prod": "node dist/apps/auth-service/src/main"
   },
   "keywords": [],
   "author": "",
