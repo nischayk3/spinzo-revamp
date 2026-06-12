@@ -1,0 +1,11 @@
+[build]
+builder = "RAILPACK"
+buildCommand = "pnpm install --frozen-lockfile && pnpm --filter @spinzo/db build && pnpm --filter @spinzo/shared-types build && pnpm --filter gateway build"
+watchPatterns = ["apps/gateway/**", "packages/**"]
+
+[deploy]
+startCommand = "node apps/gateway/dist/main"
+healthcheckPath = "/api/v1/health"
+healthcheckTimeout = 120
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3

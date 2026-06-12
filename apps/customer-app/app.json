@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "Spinzo",
+    "slug": "customer-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "spinzo",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "output": "static",
+      "bundler": "metro",
+      "name": "Spinzo - Laundry & Dry Cleaning",
+      "shortName": "Spinzo",
+      "display": "standalone",
+      "themeColor": "#2563EB",
+      "backgroundColor": "#FFFFFF"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-status-bar",
+      "expo-image"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}

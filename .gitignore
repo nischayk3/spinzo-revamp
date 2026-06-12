@@ -66,3 +66,7 @@ apps/*/src/**/*.d.ts
 
 # Root-level tsbuildinfo (non-dotfile variants)
 *.tsbuildinfo
+
+# pnpm monorepo - ignore package manager lockfile conflicts
+package-lock.json
+yarn.lock

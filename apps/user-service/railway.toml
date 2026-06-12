@@ -1,0 +1,11 @@
+[build]
+builder = "RAILPACK"
+buildCommand = "pnpm install --frozen-lockfile && pnpm --filter @spinzo/db build && pnpm --filter @spinzo/shared-types build && pnpm --filter user-service build"
+watchPatterns = ["apps/user-service/**", "packages/**"]
+
+[deploy]
+startCommand = "node apps/user-service/dist/main"
+healthcheckPath = "/user/v1/health"
+healthcheckTimeout = 120
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3

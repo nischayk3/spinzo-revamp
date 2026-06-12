@@ -1,0 +1,11 @@
+[build]
+builder = "RAILPACK"
+buildCommand = "pnpm install --frozen-lockfile && pnpm --filter @spinzo/db build && pnpm --filter @spinzo/shared-types build && pnpm --filter auth-service build"
+watchPatterns = ["apps/auth-service/**", "packages/**"]
+
+[deploy]
+startCommand = "node apps/auth-service/dist/main"
+healthcheckPath = "/auth/v1/health"
+healthcheckTimeout = 120
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
