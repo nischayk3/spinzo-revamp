@@ -27,7 +27,11 @@ export default function CreateAccountScreen() {
 
   const handleSubmit = useCallback(async () => {
     if (isValid) {
-      await completeProfile(name, email || undefined);
+      await completeProfile({
+        name,
+        email: email || undefined,
+        gender: gender || undefined,
+      });
       router.replace("/(tabs)/");
     }
   }, [isValid, name, email, completeProfile, router]);

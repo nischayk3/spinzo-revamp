@@ -1,36 +1,31 @@
-import { createContext, useContext, useState, useCallback } from "react";
-import { useRouter } from "expo-router";
+import { createContext, useContext, useState, useCallback, useEffect } from "react";
+import { authApi, setTokens, loadTokens, saveTokens, onUnauthorized } from "../lib/api";
 
 type User = {
-  uid: string;
+  id: string;
   phone: string;
+  name?: string | null;
+  email?: string | null;
+  gender?: string | null;
+  role: string;
 } | null;
 
 type AuthContextType = {
   user: User;
-  /** True if fully authenticated (logged in with phone+OTP) */
   isAuthenticated: boolean;
-  /** True if browsing as guest (can see home, but not orders/cart) */
   isGuest: boolean;
   isLoading: boolean;
-  /**
-   * Sign in with phone + OTP.
-   * If user exists → sets user, returns "existing"
-   * If new user → sets user, returns "new" (caller navigates to create-account)
-   */
   signIn: (phone: string, otp: string) => Promise<"existing" | "new">;
   signOut: () => void;
-  /** Continue as guest (no auth, limited access) */
   continueAsGuest: () => void;
-  /** Complete profile creation for new users */
-  completeProfile: (name: string, email?: string) => Promise<void>;
+  completeProfile: (data: { name: string; email?: string; gender?: string }) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   isAuthenticated: false,
   isGuest: false,
-  isLoading: false,
+  isLoading: true,
   signIn: async () => "new",
   signOut: () => {},
   continueAsGuest: () => {},
@@ -40,28 +35,64 @@ const AuthContext = createContext<AuthContextType>({
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User>(null);
   const [isGuest, setIsGuest] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const signIn = useCallback(async (phone: string, otp: string) => {
+  // Handle session expiry
+  onUnauthorized(() => {
+    setUser(null);
+    saveTokens(null);
+  });
+
+  // On mount, restore session from stored tokens
+  useEffect(() => {
+    (async () => {
+      try {
+        const tokens = await loadTokens();
+        if (tokens) {
+          setTokens(tokens);
+          const profile = await authApi.getProfile();
+          setUser(profile);
+        }
+      } catch {
+        await saveTokens(null);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, []);
+
+  const signIn = useCallback(async (phone: string, _otp: string) => {
     setIsLoading(true);
     try {
-      // TODO: Replace with actual Firebase OTP verification + gateway check
-      // For now: simulate — odd UIDs are "new users"
-      await new Promise((r) => setTimeout(r, 800));
-      const uid = `user_${Date.now()}`;
-      const isNewUser = phone.endsWith("99"); // demo: numbers ending in 99 = new
-      setUser({ uid, phone });
-      return isNewUser ? "new" : "existing";
+      // With DEV_BYPASS_FIREBASE=true on backend, any token works
+      const mockFirebaseToken = `mock-phone-${phone}`;
+      const result = await authApi.login(mockFirebaseToken);
+
+      await saveTokens({
+        accessToken: result.accessToken,
+        refreshToken: result.refreshToken,
+      });
+
+      setTokens({
+        accessToken: result.accessToken,
+        refreshToken: result.refreshToken,
+      });
+
+      setUser(result.user);
+
+      // If user has no name, they haven't completed onboarding
+      if (!result.user.name) return "new";
+      return "existing";
     } finally {
       setIsLoading(false);
     }
   }, []);
 
-  const completeProfile = useCallback(async (name: string) => {
+  const completeProfile = useCallback(async (data: { name: string; email?: string; gender?: string }) => {
     setIsLoading(true);
     try {
-      await new Promise((r) => setTimeout(r, 300));
-      // Profile saved — user is now fully onboarded
+      const updated = await authApi.updateProfile(data);
+      setUser((prev) => (prev ? { ...prev, ...updated } : prev));
     } finally {
       setIsLoading(false);
     }
@@ -70,6 +101,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signOut = useCallback(() => {
     setUser(null);
     setIsGuest(false);
+    saveTokens(null);
+    setTokens(null);
   }, []);
 
   const continueAsGuest = useCallback(() => {
